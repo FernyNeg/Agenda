@@ -11,4 +11,16 @@
 	<artifactId>AgendaRest</artifactId>
 	<packaging>jar</packaging>
 	<name>AgendaRest</name>
+	<dependencies>
+		<dependency>
+			<groupId>itsh.isic</groupId>
+			<artifactId>AgendaCore</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>itsh.isic</groupId>
+			<artifactId>AgendaPersist</artifactId>
+			<version>1.0</version>
+		</dependency>
+	</dependencies>
 </project>
