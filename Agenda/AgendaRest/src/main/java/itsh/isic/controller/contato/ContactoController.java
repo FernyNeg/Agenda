@@ -1,20 +1,17 @@
 package itsh.isic.controller.contato;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import itsh.isic.business.contacto.ContactoService;
 import itsh.isic.constantes.UrlConstantes;
-import itsh.isic.dao.contacto.ContactoDao;
 import itsh.isic.exception.BusinessException;
+import itsh.isic.models.ConsultaList;
 import itsh.isic.models.ContactoModel;
 
 @Controller
@@ -49,13 +46,14 @@ public class ContactoController {
 
 	@PostMapping(value = UrlConstantes.LEER_CONTACTOS)
 	@ResponseBody
-	public List<ContactoModel> leerContactos(@RequestBody(required = false) String reqNombre) throws BusinessException {
-		log.info("ContactoController: se recibe consulta de contactos: " + reqNombre);
-		List<ContactoModel> res = null;
+	public ConsultaList<ContactoModel> leerContactos(@RequestBody ConsultaList<ContactoModel> reqNombre)
+			throws BusinessException {
+		log.info("ContactoController: se recibe consulta de contactos: " + reqNombre.getParam());
+		ConsultaList<ContactoModel> res = new ConsultaList<ContactoModel>();
 		try {
-			res = contactoCont.leerContactos(reqNombre);
+			res = this.contactoCont.leerContactos(reqNombre);
 		} catch (Exception e) {
-			log.error("ContactoController: error en la recepcion de nombre: " + reqNombre);
+			log.error("ContactoController: error en la recepcion de nombre: " + reqNombre.getParam());
 			res = null;
 		}
 		return res;

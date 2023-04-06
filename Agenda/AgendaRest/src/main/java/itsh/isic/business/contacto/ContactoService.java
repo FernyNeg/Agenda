@@ -1,7 +1,5 @@
 package itsh.isic.business.contacto;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import itsh.isic.dao.contacto.ContactoDao;
 import itsh.isic.exception.BusinessException;
+import itsh.isic.models.ConsultaList;
 import itsh.isic.models.ContactoModel;
 
 @Service
@@ -29,11 +28,11 @@ public class ContactoService {
 		return res;
 	}
 
-	public List<ContactoModel> leerContactos(String reqNombre) throws BusinessException {
+	public ConsultaList<ContactoModel> leerContactos(ConsultaList<ContactoModel> reqNombre) throws BusinessException {
 		log.info("ContactoBuss: se controla consulta de contactos ");
-		List<ContactoModel> res = null;
+		ConsultaList<ContactoModel> res = new ConsultaList<ContactoModel>();
 		try {
-			res = this.contacto.getContactosList(reqNombre);
+			res.setList(contacto.getContactosList(reqNombre));
 		} catch (Exception e) {
 			log.error("ContactoBuss: Error al consultar contactos: " + reqNombre + e);
 			res = null;
