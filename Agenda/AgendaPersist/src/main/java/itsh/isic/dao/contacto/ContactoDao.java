@@ -3,6 +3,7 @@ package itsh.isic.dao.contacto;
 import java.util.List;
 
 import itsh.isic.exception.BusinessException;
+import itsh.isic.models.ConsultaList;
 import itsh.isic.models.ContactoModel;
 
 public interface ContactoDao {
@@ -11,7 +12,7 @@ public interface ContactoDao {
 
 	public ContactoModel getContacto(Integer reqId) throws BusinessException;
 
-	public List<ContactoModel> getContactosList(String reqNombres) throws BusinessException;
+	public List<ContactoModel> getContactosList(ConsultaList<ContactoModel> reqNombres) throws BusinessException;
 
 	public boolean chngContacto(ContactoModel reqContacto) throws BusinessException;
 

@@ -20,6 +20,7 @@ import itsh.isic.dao.connec.ConnectDao;
 import itsh.isic.dao.contacto.ContactoDao;
 import itsh.isic.enums.DBEnum;
 import itsh.isic.exception.BusinessException;
+import itsh.isic.models.ConsultaList;
 import itsh.isic.models.ContactoModel;
 
 @Repository
@@ -55,10 +56,10 @@ public class ContactoDaoImpl implements ContactoDao {
 	}
 
 	@Override
-	public List<ContactoModel> getContactosList(String reqNombre) {
+	public List<ContactoModel> getContactosList(ConsultaList<ContactoModel> reqNombre) {
 		log.info("ContactoDaoImpl: Inicia consulta de contactos ");
 		List<ContactoModel> res = null;
-		MapSqlParameterSource namedParameters = new MapSqlParameterSource("Nombre", reqNombre == null ? "" : reqNombre);
+		MapSqlParameterSource namedParameters = new MapSqlParameterSource("Nombre", reqNombre.getParam());
 		try {
 			res = this.dao.getNamedjdbcTemplate().query(this.genQryGetContactos(), namedParameters,
 					new BeanPropertyRowMapper<ContactoModel>(ContactoModel.class));
