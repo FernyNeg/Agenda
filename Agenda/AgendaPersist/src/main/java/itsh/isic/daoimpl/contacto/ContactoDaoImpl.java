@@ -59,7 +59,8 @@ public class ContactoDaoImpl implements ContactoDao {
 	public List<ContactoModel> getContactosList(ConsultaList<ContactoModel> reqNombre) {
 		log.info("ContactoDaoImpl: Inicia consulta de contactos ");
 		List<ContactoModel> res = null;
-		MapSqlParameterSource namedParameters = new MapSqlParameterSource("Nombre", reqNombre.getParam());
+		MapSqlParameterSource namedParameters = new MapSqlParameterSource("Nombre",
+				reqNombre.getParam() == null ? "" : reqNombre.getParam());
 		try {
 			res = this.dao.getNamedjdbcTemplate().query(this.genQryGetContactos(), namedParameters,
 					new BeanPropertyRowMapper<ContactoModel>(ContactoModel.class));
