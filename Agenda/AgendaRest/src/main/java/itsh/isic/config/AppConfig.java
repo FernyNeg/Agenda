@@ -12,9 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 @ComponentScan({ "itsh.isic.*" })
@@ -36,7 +34,7 @@ public class AppConfig extends SpringBootServletInitializer {
 			factory.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/"));
 		}
 	}
-	
+
 	@Bean
 	public PlatformTransactionManager transactionManager(DataSource dataSource) {
 		return new DataSourceTransactionManager(dataSource);
