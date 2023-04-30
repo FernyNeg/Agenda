@@ -7,7 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import itsh.isic.constantes.UrlConstantes;
 import itsh.isic.exception.BusinessException;
@@ -15,8 +17,8 @@ import itsh.isic.models.ConsultaList;
 import itsh.isic.models.ContactoModel;
 import itsh.isic.service.contacto.ContactoService;
 
-@CrossOrigin(origins="http://localhost:4200")
-@Controller
+@RestController
+@RequestMapping("/controller/contacto")
 public class ContactoController {
 	private static final Logger log = LoggerFactory.getLogger(ContactoController.class);
 
@@ -25,11 +27,11 @@ public class ContactoController {
 
 	/*
 	 * 
-	 * @postMaping para publicarlo como una ruta de acceso al servicio
+	 * @PostMapping para publicarlo como una ruta de acceso al servicio
 	 * 
-	 * @responseBody para asignar atrubitos de RESPUESTA de datos
+	 * @RequestBody para asignar atrubitos de RESPUESTA de datos
 	 * 
-	 * @requestBody para asignar atributos de ENTRADA de datos
+	 * @ResponseBody para asignar atributos de ENTRADA de datos
 	 * 
 	 */
 
