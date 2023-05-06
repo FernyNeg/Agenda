@@ -19,6 +19,7 @@ import itsh.isic.service.contacto.ContactoService;
 @RequestMapping("/controller/contacto")
 public class ContactoController {
 	private static final Logger log = LoggerFactory.getLogger(ContactoController.class);
+	private static final String clase="ContactoController: ";
 
 	@Autowired
 	private ContactoService contactoCont;
@@ -37,28 +38,28 @@ public class ContactoController {
 	@ResponseBody
 	public ConsultaList<ContactoModel> leerContactos(@RequestBody ConsultaList<ContactoModel> reqNombre)
 			throws BusinessException {
-		log.info("ContactoController: se recibe consulta de contactos: " + reqNombre.getParam());
+		log.info(clase + "se recibe consulta de contactos: " + reqNombre.getParam());
 		return this.contactoCont.leerContactos(reqNombre);
 	}
 
 	@PostMapping(value = UrlConstantes.LEER_CONTACTO_POR_ID)
 	@ResponseBody
 	public ContactoModel leerContactoPorId(@RequestBody ContactoModel reqContacto) throws BusinessException {
-		log.info("ContactoController: se recibe consulta de contactos: " + reqContacto.getIdContacto());
+		log.info(clase + "se recibe consulta de contactos: " + reqContacto.getIdContacto());
 		return this.contactoCont.leerContactoPorId(reqContacto);
 	}
 
 	@PostMapping(value = UrlConstantes.ACTUALIZA_CONTACTO)
 	@ResponseBody
 	public ContactoModel chngContacto(@RequestBody ContactoModel reqContacto) {
-		log.info("ContactoController: se recibe cambio de contacto: " + reqContacto.getIdContacto());
+		log.info(clase + "se recibe cambio de contacto: " + reqContacto.getIdContacto());
 		return contactoCont.chngContacto(reqContacto);
 	}
 
 	@PostMapping(value = UrlConstantes.GUARDA_CONTACTO)
 	@ResponseBody
 	public ContactoModel guardaContacto(@RequestBody ContactoModel reqContacto) throws BusinessException {
-		log.info("ContactoController: se recibe dato de contacto: " + reqContacto.getNombre());
+		log.info(clase + "se recibe dato de contacto: " + reqContacto.getNombre());
 		return contactoCont.setNuevContacto(reqContacto);
 	}
 

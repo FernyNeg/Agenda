@@ -27,13 +27,14 @@ import itsh.isic.models.ContactoModel;
 public class ContactoDaoImpl implements ContactoDao {
 
 	private static final Logger log = LoggerFactory.getLogger(ContactoDaoImpl.class);
+	private static final String clase = "ContactoDaoImpl: ";
 
 	@Autowired
 	private ConnectDao dao;
 
 	@Override
 	public ContactoModel setContacto(ContactoModel contacto) throws BusinessException {
-		log.info("ContactoDaoImpl: Inicia insersion de contacto: " + contacto.getNombre());
+		log.info(clase + "Inicia insersion de contacto: " + contacto.getNombre());
 		BeanPropertySqlParameterSource paramContacto = new BeanPropertySqlParameterSource(contacto);
 		try {
 			KeyHolder key = new GeneratedKeyHolder();
@@ -47,11 +48,11 @@ public class ContactoDaoImpl implements ContactoDao {
 				contacto.setMensaje(MsjEnum.FALLO_SERVER.getDescripcion());
 			}
 		} catch (DuplicateKeyException dke) {
-			log.error("ContactoDaoImpl: error en la insersion del contacto: correo existente en los registros " + dke);
+			log.error(clase + "error en la insersion del contacto: correo existente en los registros " + dke);
 			contacto.setCodRetorno(CodRetornoEnum.PARAMS_REPETIDOS.getDescripcion());
 			contacto.setMensaje(MsjEnum.CORREO_REPETIDO.getDescripcion());
 		} catch (Exception e) {
-			log.error("ContactoDaoImpl: error en la insersion del contacto" + e);
+			log.error(clase + "error en la insersion del contacto" + e);
 			contacto.setCodRetorno(CodRetornoEnum.FALLO_SERVER.getDescripcion());
 			contacto.setMensaje(MsjEnum.FALLO_SERVER.getDescripcion());
 		}
@@ -60,7 +61,7 @@ public class ContactoDaoImpl implements ContactoDao {
 
 	@Override
 	public ContactoModel leerContactoPorId(ContactoModel reqContacto) throws BusinessException {
-		log.info("ContactoDaoImpl: Inicia consulta de contacto por id: " + reqContacto.getIdContacto());
+		log.info(clase + "Inicia consulta de contacto por id: " + reqContacto.getIdContacto());
 		BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(reqContacto);
 		ContactoModel res = new ContactoModel();
 		try {
@@ -69,11 +70,11 @@ public class ContactoDaoImpl implements ContactoDao {
 			res.setCodRetorno(CodRetornoEnum.CEROS.getDescripcion());
 			res.setMensaje(MsjEnum.OP_COMPLETADA.getDescripcion());
 		} catch (EmptyResultDataAccessException e) {
-			log.error("ContactoDaoImpl: No hay datos para obtener de la consulta: " + reqContacto.getIdContacto());
+			log.error(clase + "No hay datos para obtener de la consulta: " + reqContacto.getIdContacto());
 			res.setCodRetorno(CodRetornoEnum.CEROS.getDescripcion());
 			res.setMensaje(MsjEnum.EMPTY_RES_OBJ.getDescripcion());
 		} catch (Exception e) {
-			log.error("ContactoDaoImpl: Error al obtener el contacto por id: " + reqContacto.getIdContacto() + " " + e);
+			log.error(clase + "Error al obtener el contacto por id: " + reqContacto.getIdContacto() + " " + e);
 			res.setCodRetorno(CodRetornoEnum.FALLO_SERVER.getDescripcion());
 			res.setMensaje(MsjEnum.FALLO_SERVER.getDescripcion());
 		}
@@ -82,7 +83,7 @@ public class ContactoDaoImpl implements ContactoDao {
 
 	@Override
 	public ConsultaList<ContactoModel> getContactosList(String reqNombre) {
-		log.info("ContactoDaoImpl: Inicia consulta de contactos ");
+		log.info(clase + "Inicia consulta de contactos ");
 		ConsultaList<ContactoModel> res = new ConsultaList<ContactoModel>();
 		MapSqlParameterSource namedParameters = new MapSqlParameterSource("Nombre", reqNombre);
 		try {
@@ -91,11 +92,11 @@ public class ContactoDaoImpl implements ContactoDao {
 			res.setCodRetorno(CodRetornoEnum.CEROS.getDescripcion());
 			res.setMensaje(MsjEnum.OP_COMPLETADA.getDescripcion());
 		} catch (EmptyResultDataAccessException e) {
-			log.error("ContactoDaoImpl: No se encontraron datos de la consulta: " + reqNombre);
+			log.error(clase + "No se encontraron datos de la consulta: " + reqNombre);
 			res.setCodRetorno(CodRetornoEnum.CEROS.getDescripcion());
 			res.setMensaje(MsjEnum.EMPTY_RES_LIST.getDescripcion());
 		} catch (Exception e) {
-			log.error("ContactoDaoImpl: Error al obtener los datos de la consulta", e);
+			log.error(clase + "Error al obtener los datos de la consulta", e);
 			res.setCodRetorno(CodRetornoEnum.FALLO_SERVER.getDescripcion());
 			res.setMensaje(MsjEnum.FALLO_SERVER.getDescripcion());
 		}
@@ -104,19 +105,20 @@ public class ContactoDaoImpl implements ContactoDao {
 
 	@Override
 	public ContactoModel chngContacto(ContactoModel reqContacto) throws BusinessException {
-		log.info("ContactoDaoImpl: se inicia actualizacion de contacto: " + reqContacto.getNombre());
+		log.info(clase + "se inicia actualizacion de contacto: " + reqContacto.getNombre());
 		final BeanPropertySqlParameterSource paramContacto = new BeanPropertySqlParameterSource(reqContacto);
 		try {
 			boolean res = (this.dao.getNamedjdbcTemplate().update(this.genQryChngContacto(), paramContacto) == 1);
 			reqContacto
 					.setCodRetorno(res ? CodRetornoEnum.CEROS.getDescripcion() : CodRetornoEnum.FALLO_SERVER.getDescripcion());
+			log.info(clase + "se cambia correctamente la información del contacto: " + reqContacto.getNombre());
 			reqContacto.setMensaje(MsjEnum.OP_COMPLETADA.getDescripcion());
 		} catch (DuplicateKeyException dke) {
-			log.error("ContactoDaoImpl: ya existe el correo en los registros: " + dke);
+			log.error(clase + "ya existe el correo en los registros: " + dke);
 			reqContacto.setCodRetorno(CodRetornoEnum.PARAMS_REPETIDOS.getDescripcion());
 			reqContacto.setMensaje(MsjEnum.CORREO_REPETIDO.getDescripcion());
 		} catch (Exception e) {
-			log.error("ContactoDaoImpl: Error en la actualizacion de contacto: " + e);
+			log.error(clase + "Error en la actualizacion de contacto: " + e);
 			reqContacto.setCodRetorno(CodRetornoEnum.FALLO_SERVER.getDescripcion());
 			reqContacto.setMensaje(MsjEnum.FALLO_SERVER.getDescripcion());
 		}
