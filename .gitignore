@@ -3,4 +3,8 @@
 Agenda/AgendaCore/target/
 Agenda/AgendaPersist/target/
 Agenda/AgendaRest/target/
+Agenda/AgendaCore/.settings/
+Agenda/AgendaPersist/.settings/
+Agenda/AgendaRest/.settings/
+Agenda/.settings/
 .vscode/
