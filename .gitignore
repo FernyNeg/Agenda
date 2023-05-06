@@ -1,3 +1,6 @@
 *.project
 *.classpath
+Agenda/AgendaCore/target/
+Agenda/AgendaPersist/target/
+Agenda/AgendaRest/target/
 .vscode/
