@@ -12,6 +12,12 @@
 	<packaging>jar</packaging>
 	<name>AgendaRest</name>
 	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>itsh.isic</groupId>
 			<artifactId>AgendaCore</artifactId>

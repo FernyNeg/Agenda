@@ -13,6 +13,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { ComponentsModule } from "./components/components.module";
+import { ModalsModule } from "./modals/modals.module";
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { ComponentsModule } from "./components/components.module";
     FormsModule,
     HttpClientModule,
     ComponentsModule,
+    ModalsModule,
     NgbModule,
     RouterModule,
     AppRoutingModule,

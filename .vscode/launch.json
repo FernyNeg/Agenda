@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-AppConfig<AgendaRest>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "itsh.isic.config.AppConfig",
+            "projectName": "AgendaRest",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

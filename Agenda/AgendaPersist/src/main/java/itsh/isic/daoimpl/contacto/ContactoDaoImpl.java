@@ -1,12 +1,10 @@
 package itsh.isic.daoimpl.contacto;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -18,7 +16,9 @@ import itsh.isic.constantes.Constantes;
 import itsh.isic.constantes.tablas.TblConsContac;
 import itsh.isic.dao.connec.ConnectDao;
 import itsh.isic.dao.contacto.ContactoDao;
+import itsh.isic.enums.CodRetornoEnum;
 import itsh.isic.enums.DBEnum;
+import itsh.isic.enums.MsjEnum;
 import itsh.isic.exception.BusinessException;
 import itsh.isic.models.ConsultaList;
 import itsh.isic.models.ContactoModel;
@@ -32,72 +32,111 @@ public class ContactoDaoImpl implements ContactoDao {
 	private ConnectDao dao;
 
 	@Override
-	public Integer setContacto(ContactoModel contacto) throws BusinessException {
+	public ContactoModel setContacto(ContactoModel contacto) throws BusinessException {
 		log.info("ContactoDaoImpl: Inicia insersion de contacto: " + contacto.getNombre());
 		BeanPropertySqlParameterSource paramContacto = new BeanPropertySqlParameterSource(contacto);
 		try {
 			KeyHolder key = new GeneratedKeyHolder();
 			this.dao.getNamedjdbcTemplate().update(this.genQrySetContacto(), paramContacto, key,
 					new String[] { TblConsContac.COL_IDCONTACTO.toString() });
-			return key.getKey().intValue();
+			if (key.getKey().intValue() == 1) {
+				contacto.setCodRetorno(CodRetornoEnum.CEROS.getDescripcion());
+				contacto.setMensaje(MsjEnum.OP_COMPLETADA.getDescripcion());
+			} else {
+				contacto.setCodRetorno(CodRetornoEnum.FALLO_SERVER.getDescripcion());
+				contacto.setMensaje(MsjEnum.FALLO_SERVER.getDescripcion());
+			}
 		} catch (DuplicateKeyException dke) {
-			log.error("ContactoDaoImpl: error en la insersion del contacto: correo existente en los registros" + dke);
-			return null;
+			log.error("ContactoDaoImpl: error en la insersion del contacto: correo existente en los registros " + dke);
+			contacto.setCodRetorno(CodRetornoEnum.PARAMS_REPETIDOS.getDescripcion());
+			contacto.setMensaje(MsjEnum.CORREO_REPETIDO.getDescripcion());
 		} catch (Exception e) {
 			log.error("ContactoDaoImpl: error en la insersion del contacto" + e);
-			return null;
+			contacto.setCodRetorno(CodRetornoEnum.FALLO_SERVER.getDescripcion());
+			contacto.setMensaje(MsjEnum.FALLO_SERVER.getDescripcion());
 		}
+		return contacto;
 	}
 
 	@Override
-	public ContactoModel getContacto(Integer id) {
-		// SELECT * FROM agendarest.contacto where Nombre like "%%"
-		return null;
-	}
-
-	@Override
-	public List<ContactoModel> getContactosList(ConsultaList<ContactoModel> reqNombre) {
-		log.info("ContactoDaoImpl: Inicia consulta de contactos ");
-		List<ContactoModel> res = null;
-		MapSqlParameterSource namedParameters = new MapSqlParameterSource("Nombre",
-				reqNombre.getParam() == null ? "" : reqNombre.getParam());
+	public ContactoModel leerContactoPorId(ContactoModel reqContacto) throws BusinessException {
+		log.info("ContactoDaoImpl: Inicia consulta de contacto por id: " + reqContacto.getIdContacto());
+		BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(reqContacto);
+		ContactoModel res = new ContactoModel();
 		try {
-			res = this.dao.getNamedjdbcTemplate().query(this.genQryGetContactos(), namedParameters,
+			res = dao.getNamedjdbcTemplate().queryForObject(this.genQryGetContactoPorId(), params,
 					new BeanPropertyRowMapper<ContactoModel>(ContactoModel.class));
-		} catch (DataAccessException e) {
-			log.error("Error al consultar información de contactos", e);
+			res.setCodRetorno(CodRetornoEnum.CEROS.getDescripcion());
+			res.setMensaje(MsjEnum.OP_COMPLETADA.getDescripcion());
+		} catch (EmptyResultDataAccessException e) {
+			log.error("ContactoDaoImpl: No hay datos para obtener de la consulta: " + reqContacto.getIdContacto());
+			res.setCodRetorno(CodRetornoEnum.CEROS.getDescripcion());
+			res.setMensaje(MsjEnum.EMPTY_RES_OBJ.getDescripcion());
+		} catch (Exception e) {
+			log.error("ContactoDaoImpl: Error al obtener el contacto por id: " + reqContacto.getIdContacto() + " " + e);
+			res.setCodRetorno(CodRetornoEnum.FALLO_SERVER.getDescripcion());
+			res.setMensaje(MsjEnum.FALLO_SERVER.getDescripcion());
 		}
 		return res;
 	}
 
 	@Override
-	public boolean chngContacto(ContactoModel reqContacto) throws BusinessException {
+	public ConsultaList<ContactoModel> getContactosList(String reqNombre) {
+		log.info("ContactoDaoImpl: Inicia consulta de contactos ");
+		ConsultaList<ContactoModel> res = new ConsultaList<ContactoModel>();
+		MapSqlParameterSource namedParameters = new MapSqlParameterSource("Nombre", reqNombre);
+		try {
+			res.setList(this.dao.getNamedjdbcTemplate().query(this.genQryGetContactos(), namedParameters,
+					new BeanPropertyRowMapper<ContactoModel>(ContactoModel.class)));
+			res.setCodRetorno(CodRetornoEnum.CEROS.getDescripcion());
+			res.setMensaje(MsjEnum.OP_COMPLETADA.getDescripcion());
+		} catch (EmptyResultDataAccessException e) {
+			log.error("ContactoDaoImpl: No se encontraron datos de la consulta: " + reqNombre);
+			res.setCodRetorno(CodRetornoEnum.CEROS.getDescripcion());
+			res.setMensaje(MsjEnum.EMPTY_RES_LIST.getDescripcion());
+		} catch (Exception e) {
+			log.error("ContactoDaoImpl: Error al obtener los datos de la consulta", e);
+			res.setCodRetorno(CodRetornoEnum.FALLO_SERVER.getDescripcion());
+			res.setMensaje(MsjEnum.FALLO_SERVER.getDescripcion());
+		}
+		return res;
+	}
+
+	@Override
+	public ContactoModel chngContacto(ContactoModel reqContacto) throws BusinessException {
 		log.info("ContactoDaoImpl: se inicia actualizacion de contacto: " + reqContacto.getNombre());
 		final BeanPropertySqlParameterSource paramContacto = new BeanPropertySqlParameterSource(reqContacto);
-		boolean res = false;
 		try {
-			res = (this.dao.getNamedjdbcTemplate().update(this.genQryChngContacto(), paramContacto) == 1);
+			boolean res = (this.dao.getNamedjdbcTemplate().update(this.genQryChngContacto(), paramContacto) == 1);
+			reqContacto
+					.setCodRetorno(res ? CodRetornoEnum.CEROS.getDescripcion() : CodRetornoEnum.FALLO_SERVER.getDescripcion());
+			reqContacto.setMensaje(MsjEnum.OP_COMPLETADA.getDescripcion());
 		} catch (DuplicateKeyException dke) {
 			log.error("ContactoDaoImpl: ya existe el correo en los registros: " + dke);
+			reqContacto.setCodRetorno(CodRetornoEnum.PARAMS_REPETIDOS.getDescripcion());
+			reqContacto.setMensaje(MsjEnum.CORREO_REPETIDO.getDescripcion());
 		} catch (Exception e) {
 			log.error("ContactoDaoImpl: Error en la actualizacion de contacto: " + e);
+			reqContacto.setCodRetorno(CodRetornoEnum.FALLO_SERVER.getDescripcion());
+			reqContacto.setMensaje(MsjEnum.FALLO_SERVER.getDescripcion());
 		}
-		return res;
-	}
-
-	@Override
-	public boolean delContacto(Integer reqId) {
-		// TODO Auto-generated method stub
-		return false;
+		return reqContacto;
 	}
 
 	private String genQryChngContacto() {
 		StringBuilder qry = new StringBuilder();
-		qry.append("UPDATE ").append(DBEnum.CONTACTO.toString().toLowerCase());
+		qry.append("UPDATE ").append(DBEnum.CONTACTO.getDescripcion());
 		qry.append(" SET ");
+		qry.append(TblConsContac.COL_USUARIO).append("=").append(":usuario").append(Constantes.COMMA);
+		qry.append(TblConsContac.COL_CORREO).append("=").append(":correo").append(Constantes.COMMA);
 		qry.append(TblConsContac.COL_NOMBRE).append("=").append(":nombre").append(Constantes.COMMA);
+		qry.append(TblConsContac.COL_PATERNO).append("=").append(":aPaterno").append(Constantes.COMMA);
+		qry.append(TblConsContac.COL_MATERNO).append("=").append(":aMaterno").append(Constantes.COMMA);
 		qry.append(TblConsContac.COL_DIRECCION).append("=").append(":direccion").append(Constantes.COMMA);
-		qry.append(TblConsContac.COL_CORREO).append("=").append(":correo");
+		qry.append(TblConsContac.COL_CIUDAD).append("=").append(":ciudad").append(Constantes.COMMA);
+		qry.append(TblConsContac.COL_PAIS).append("=").append(":pais").append(Constantes.COMMA);
+		qry.append(TblConsContac.COL_CODPOSTAL).append("=").append(":codPostal").append(Constantes.COMMA);
+		qry.append(TblConsContac.COL_NOTAS).append("=").append(":notas");
 		qry.append(" WHERE ").append(TblConsContac.COL_IDCONTACTO).append("=").append(":idContacto");
 		return qry.toString();
 	}
@@ -105,7 +144,12 @@ public class ContactoDaoImpl implements ContactoDao {
 	private String genQryGetContactos() {
 		StringBuilder qry = new StringBuilder();
 //		qry.append("call getContactos(:Nombre)");
-		qry.append(" SELECT * FROM ").append(DBEnum.CONTACTO.toString().toLowerCase());
+		qry.append(" SELECT ");
+		qry.append(TblConsContac.COL_IDCONTACTO.toString() + Constantes.COMMA);
+		qry.append(TblConsContac.COL_NOMBRE.toString() + Constantes.COMMA);
+		qry.append(TblConsContac.COL_DIRECCION.toString() + Constantes.COMMA);
+		qry.append(TblConsContac.COL_CORREO.toString());
+		qry.append(" FROM ").append(DBEnum.CONTACTO.getDescripcion());
 		qry.append(" WHERE ");
 		qry.append(TblConsContac.COL_NOMBRE.toString());
 		qry.append(" LIKE CONCAT('%',");
@@ -116,7 +160,7 @@ public class ContactoDaoImpl implements ContactoDao {
 
 	private String genQrySetContacto() {
 		StringBuilder qry = new StringBuilder();
-		qry.append(" insert into ").append(DBEnum.CONTACTO.toString().toLowerCase());
+		qry.append(" insert into ").append(DBEnum.CONTACTO.getDescripcion());
 		qry.append(" ( ");
 		qry.append(TblConsContac.COL_IDCONTACTO + Constantes.COMMA);
 		qry.append(TblConsContac.COL_NOMBRE + Constantes.COMMA);
@@ -125,6 +169,16 @@ public class ContactoDaoImpl implements ContactoDao {
 		qry.append(") ");
 		qry.append(" values ( ").append(Constantes.CERO_NUM).append(", ");
 		qry.append(":nombre, :direccion, :correo )");
+		return qry.toString();
+	}
+
+	private String genQryGetContactoPorId() {
+		StringBuilder qry = new StringBuilder();
+//		qry.append("select * from ");
+//		qry.append(DBEnum.CONTACTO.toString().toLowerCase());
+//		qry.append(" where " + TblConsContac.COL_IDCONTACTO);
+//		qry.append(" = :idContacto");
+		qry.append("call getContacto( :idContacto )");
 		return qry.toString();
 	}
 

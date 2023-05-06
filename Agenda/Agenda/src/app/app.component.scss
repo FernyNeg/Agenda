@@ -1,0 +1,27 @@
+.m-pointer {
+  cursor: pointer;
+}
+
+div>.error {
+  color: #E95242;
+}
+
+.c-body {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.c-table {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.no-bars {
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.mat-dialog-container {
+  box-shadow: none !important;
+  background: transparent !important;
+}
