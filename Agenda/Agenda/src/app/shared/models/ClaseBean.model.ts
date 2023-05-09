@@ -1,4 +1,4 @@
 export class ClaseBean {
-  CodRetorno: string;
-  Mensaje: string;
+  codRetorno: string;
+  mensaje: string;
 }

@@ -48,7 +48,7 @@ export class UserComponent implements OnInit {
     });
     modal.afterClosed().subscribe(res => {
       if (res != null) {
-        this.alertas.mensajeSuccess('El contacto se ha guardado correctamente');
+        this.alertas.successAlert('El contacto se ha guardado correctamente');
         this.getContactosService();
       }
     })

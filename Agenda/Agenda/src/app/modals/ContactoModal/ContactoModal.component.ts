@@ -4,7 +4,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ContactosService } from 'src/app/security/contactos.service';
 import { AlertasService } from 'src/app/shared/alertas.service';
 import { CodRetorno } from 'src/app/shared/enums/CodRetorno.enum';
-import { StatusContacto } from 'src/app/shared/enums/StatusContacto.enum';
 import { Contacto } from 'src/app/shared/models/contacto.model';
 
 @Component({
@@ -67,7 +66,7 @@ export class ContactoModalComponent implements OnInit {
   setContactoEvent() {
     this.valor = true;
     if (this.contactoForm.invalid) {
-      this.alertas.mensajeError('Faltan campos por llenar del contacto');
+      this.alertas.errorAlert('Faltan campos por llenar del contacto');
       return;
     }
     this.contacto = this.contactoForm.getRawValue();
@@ -78,14 +77,11 @@ export class ContactoModalComponent implements OnInit {
 
   //#region Servicios
   setContactoService() {
-    console.log('StatusContactoEnum.', StatusContacto.ACTIVO);
-    console.log('StatusContactoEnum[]', StatusContacto[StatusContacto.ACTIVO]);
-    console.log('CodRetorno.', CodRetorno.CEROS);
-    console.log('CodRetorno[CodRetorno.CEROS]', CodRetorno[CodRetorno.CEROS]);
     this.service.setContactoPorId(this.contacto).subscribe(res => {
-      res.CodRetorno == CodRetorno.CEROS ?
+      console.log(res.codRetorno);
+      res.codRetorno == CodRetorno.CEROS ?
         this.dialog.close(true) :
-        this.alertas.mensajeError('Ha ocurrido un error al guardar el contacto');
+        this.alertas.errorAlert(res.mensaje);
     });
   }
   //#endregion
