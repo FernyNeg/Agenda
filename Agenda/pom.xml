@@ -9,15 +9,10 @@
 
 	<!-- modulos declarados en el orden que se compilaran al generar la version -->
 	<modules>
-		<module>
-			AgendaCore
-		</module>
-		<module>
-			AgendaPersist
-		</module>
-		<module>
-			AgendaRest
-		</module>
+		<module>AgendaCore</module>
+		<module>AgendaPersist</module>
+		<module>Agenda</module>
+		<module>AgendaRest</module>
 	</modules>
 
 	<!-- propiedades generales del proyecto y su compilacion -->
