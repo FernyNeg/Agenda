@@ -1,8 +1,8 @@
 package itsh.isic.enums;
 
-public enum StatusContactoEnum {
+public enum EstatusUsuarioEnum {
 	/*
 	 * Enumerador con los stados disponibles para los contactos
-	 * */
-	ACTIVO, INACTIVO, AUSENTE;
+	 */
+	ACTIVO, INACTIVO, AUSENTE, BLOQUEADO;
 }

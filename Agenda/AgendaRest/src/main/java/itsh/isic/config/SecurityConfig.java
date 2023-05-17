@@ -13,12 +13,10 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeHttpRequests( //
 				(authz) -> authz.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() //
-						.requestMatchers("/*").authenticated() //
-						.requestMatchers("/public/**").authenticated() //
-						.requestMatchers("/controller/**").permitAll() //
-						.requestMatchers("/admin/**").authenticated() //
-						.requestMatchers("/controller/*.go").authenticated() //
-						.requestMatchers("/controller/*.do").permitAll() //
+//						.requestMatchers("/*").authenticated() //
+						.requestMatchers("/public/**").permitAll() //
+						.requestMatchers("/controller/**").authenticated() //
+						.requestMatchers("/controller/*.do").authenticated() //
 		) //
 				.httpBasic().and().exceptionHandling().authenticationEntryPoint(new AutenticationErrorHandler()); //
 		return http.build();

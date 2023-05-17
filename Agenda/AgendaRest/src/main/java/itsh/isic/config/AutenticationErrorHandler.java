@@ -2,8 +2,6 @@ package itsh.isic.config;
 
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -17,15 +15,12 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @ControllerAdvice
 public class AutenticationErrorHandler implements AuthenticationEntryPoint {
-	private static final Logger log = LoggerFactory.getLogger(AutenticationErrorHandler.class);
-	
-private static final String clase="AutenticationErrorHandler: ";
 
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
 			throws IOException, ServletException {
-		log.error(clase+"ALERTA: Se ha intentado acceder al sistema sin autorizaciones"+ authException);
-//		authException.printStackTrace();
+		System.out.println("Error 401");
+		authException.printStackTrace();
 		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication Failed");
 	}
 

@@ -1,6 +1,13 @@
 package itsh.isic.enums;
 
 public enum MsjEnum {
+	// Errores de login
+	MESSAGE_BLOCLED_USER_ERROR(
+			"Usuario bloquedo por intentos fallidos. Comuniquese con el administrador de la aplicación para desbloquear su usuario"),
+	ERROR_RECUPERAR_USUARIO("Error al recuperar el usuario por nombre de usuario"),
+	ERROR_VALIDANDO_CREDENTIALES("Hubo un error al validar las credenciales del usuario"),
+	CREDENCIALES_INVALIDAS("Credenciales del usuario inválidas"),
+
 	// Errores en services
 	CONTACTO_NULL("El id del contacto no puede estar vacio"), //
 	CONTACTO_USU_NULL("El usuario del contacto no puede estar vacio y ser menor de 6 caracteres"), //

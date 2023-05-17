@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import itsh.isic.dao.contacto.ContactoDao;
 import itsh.isic.enums.CodRetornoEnum;
 import itsh.isic.enums.MsjEnum;
-import itsh.isic.exception.BusinessException;
+import itsh.isic.exception.ServiciosException;
 import itsh.isic.models.ConsultaList;
 import itsh.isic.models.ContactoModel;
 
@@ -20,14 +20,14 @@ public class ContactoService {
 	@Autowired
 	private ContactoDao contacto;
 
-	public ConsultaList<ContactoModel> leerContactos(ConsultaList<ContactoModel> reqNombre) throws BusinessException {
+	public ConsultaList<ContactoModel> leerContactos(ConsultaList<ContactoModel> reqNombre) throws ServiciosException {
 		log.info(clase + "se controla consulta de contactos ");
 		String nombre = reqNombre.getParam() == null ? "" : reqNombre.getParam();
 		reqNombre = contacto.getContactosList(nombre);
 		return reqNombre;
 	}
 
-	public ContactoModel leerContactoPorId(ContactoModel reqContacto) throws BusinessException {
+	public ContactoModel leerContactoPorId(ContactoModel reqContacto) throws ServiciosException {
 		log.info(clase + "se controla consulta de contacto por id: " + reqContacto.getIdContacto());
 		if (reqContacto.getIdContacto() != null) {
 			reqContacto = contacto.leerContactoPorId(reqContacto);
@@ -59,7 +59,7 @@ public class ContactoService {
 		return reqContacto;
 	}
 
-	public ContactoModel setNuevContacto(ContactoModel reqContacto) throws BusinessException {
+	public ContactoModel setNuevContacto(ContactoModel reqContacto) throws ServiciosException {
 		log.info(clase + "se recibe insersión de contacto: " + reqContacto.getNombre());
 		try {
 			ContactoModel res = validaContacto(reqContacto, false);
@@ -71,7 +71,7 @@ public class ContactoService {
 				reqContacto.setCodRetorno(res.getCodRetorno());
 				reqContacto.setMensaje(res.getMensaje());
 			}
-		} catch (BusinessException e) {
+		} catch (ServiciosException e) {
 			log.error(clase + "Error al guardar nuevo contacto: " + e);
 			reqContacto.setCodRetorno(CodRetornoEnum.FALLO_SERVER.getDescripcion());
 			reqContacto.setMensaje(MsjEnum.FALLO_SERVER.getDescripcion());

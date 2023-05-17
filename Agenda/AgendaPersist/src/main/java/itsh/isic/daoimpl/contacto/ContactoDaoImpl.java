@@ -19,7 +19,8 @@ import itsh.isic.dao.contacto.ContactoDao;
 import itsh.isic.enums.CodRetornoEnum;
 import itsh.isic.enums.DBEnum;
 import itsh.isic.enums.MsjEnum;
-import itsh.isic.exception.BusinessException;
+import itsh.isic.enums.NumerosEnum;
+import itsh.isic.exception.ServiciosException;
 import itsh.isic.models.ConsultaList;
 import itsh.isic.models.ContactoModel;
 
@@ -33,7 +34,7 @@ public class ContactoDaoImpl implements ContactoDao {
 	private ConnectDao dao;
 
 	@Override
-	public ContactoModel setContacto(ContactoModel contacto) throws BusinessException {
+	public ContactoModel setContacto(ContactoModel contacto) throws ServiciosException {
 		log.info(clase + "Inicia insersion de contacto: " + contacto.getNombre());
 		BeanPropertySqlParameterSource paramContacto = new BeanPropertySqlParameterSource(contacto);
 		try {
@@ -60,7 +61,7 @@ public class ContactoDaoImpl implements ContactoDao {
 	}
 
 	@Override
-	public ContactoModel leerContactoPorId(ContactoModel reqContacto) throws BusinessException {
+	public ContactoModel leerContactoPorId(ContactoModel reqContacto) throws ServiciosException {
 		log.info(clase + "Inicia consulta de contacto por id: " + reqContacto.getIdContacto());
 		BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(reqContacto);
 		ContactoModel res = new ContactoModel();
@@ -104,7 +105,7 @@ public class ContactoDaoImpl implements ContactoDao {
 	}
 
 	@Override
-	public ContactoModel chngContacto(ContactoModel reqContacto) throws BusinessException {
+	public ContactoModel chngContacto(ContactoModel reqContacto) throws ServiciosException {
 		log.info(clase + "se inicia actualizacion de contacto: " + reqContacto.getNombre());
 		final BeanPropertySqlParameterSource paramContacto = new BeanPropertySqlParameterSource(reqContacto);
 		try {
@@ -169,7 +170,7 @@ public class ContactoDaoImpl implements ContactoDao {
 		qry.append(TblConsContac.COL_DIRECCION + Constantes.COMMA);
 		qry.append(TblConsContac.COL_CORREO);
 		qry.append(") ");
-		qry.append(" values ( ").append(Constantes.CERO_NUM).append(", ");
+		qry.append(" values ( ").append(NumerosEnum.CERO.getNumero()).append(", ");
 		qry.append(":nombre, :direccion, :correo )");
 		return qry.toString();
 	}

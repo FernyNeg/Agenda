@@ -1,8 +1,8 @@
 package itsh.isic.models;
 
-import itsh.isic.enums.StatusContactoEnum;
+import itsh.isic.enums.EstatusUsuarioEnum;
 
-public class ContactoModel extends BaseBean {
+public class ContactoModel extends BaseModel {
 
 	private Integer idContacto;
 	private String nombre;
@@ -15,7 +15,7 @@ public class ContactoModel extends BaseBean {
 	private String pais;
 	private String notas;
 	private Integer codPostal;
-	private StatusContactoEnum status;
+	private EstatusUsuarioEnum status;
 
 	public final String getNombre() {
 		return nombre;
@@ -41,11 +41,11 @@ public class ContactoModel extends BaseBean {
 		this.correo = correo;
 	}
 
-	public final StatusContactoEnum getStatus() {
+	public final EstatusUsuarioEnum getStatus() {
 		return status;
 	}
 
-	public final void setStatus(StatusContactoEnum status) {
+	public final void setStatus(EstatusUsuarioEnum status) {
 		this.status = status;
 	}
 

@@ -1,6 +1,6 @@
 package itsh.isic.exception;
 
-public class BusinessException extends Exception {
+public class ServiciosException extends Exception {
 	/*
 	 * Clase generada para cahear las exepciones generales sin imprimir texto
 	 * exagerado a la hora de compilar e imprimir en el log
@@ -9,13 +9,13 @@ public class BusinessException extends Exception {
 	private final String id;
 	private final String mensaje;
 
-	public BusinessException(String id, String mensaje) {
+	public ServiciosException(String id, String mensaje) {
 		super(id);
 		this.id = id;
 		this.mensaje = mensaje;
 	}
 
-	public BusinessException(String id, String mensaje, Throwable exc) {
+	public ServiciosException(String id, String mensaje, Throwable exc) {
 		super(id, exc);
 		this.mensaje = mensaje;
 		this.id = id;

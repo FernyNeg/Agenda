@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import itsh.isic.constantes.UrlConstantes;
-import itsh.isic.exception.BusinessException;
+import itsh.isic.exception.ServiciosException;
 import itsh.isic.models.ConsultaList;
 import itsh.isic.models.ContactoModel;
 import itsh.isic.service.contacto.ContactoService;
@@ -37,14 +37,14 @@ public class ContactoController {
 	@PostMapping(value = UrlConstantes.LEER_CONTACTOS)
 	@ResponseBody
 	public ConsultaList<ContactoModel> leerContactos(@RequestBody ConsultaList<ContactoModel> reqNombre)
-			throws BusinessException {
+			throws ServiciosException {
 		log.info(clase + "se recibe consulta de contactos: " + reqNombre.getParam());
 		return this.contactoCont.leerContactos(reqNombre);
 	}
 
 	@PostMapping(value = UrlConstantes.LEER_CONTACTO_POR_ID)
 	@ResponseBody
-	public ContactoModel leerContactoPorId(@RequestBody ContactoModel reqContacto) throws BusinessException {
+	public ContactoModel leerContactoPorId(@RequestBody ContactoModel reqContacto) throws ServiciosException {
 		log.info(clase + "se recibe consulta de contactos: " + reqContacto.getIdContacto());
 		return this.contactoCont.leerContactoPorId(reqContacto);
 	}
@@ -58,7 +58,7 @@ public class ContactoController {
 
 	@PostMapping(value = UrlConstantes.GUARDA_CONTACTO)
 	@ResponseBody
-	public ContactoModel guardaContacto(@RequestBody ContactoModel reqContacto) throws BusinessException {
+	public ContactoModel guardaContacto(@RequestBody ContactoModel reqContacto) throws ServiciosException {
 		log.info(clase + "se recibe dato de contacto: " + reqContacto.getNombre());
 		return contactoCont.setNuevContacto(reqContacto);
 	}
