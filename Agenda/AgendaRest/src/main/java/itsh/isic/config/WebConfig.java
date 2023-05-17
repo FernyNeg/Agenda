@@ -9,21 +9,25 @@ import itsh.isic.constantes.Constantes;
 
 @Configuration
 @EnableScheduling
-public class WebConfig implements WebMvcConfigurer{
+public class WebConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**")
-		.allowedOrigins("http://localhost:4200", "*")
-		.allowedMethods("*")
-		.allowedHeaders(Constantes.HEADER_CONTET,
-				Constantes.HEADER_RESQUESTWITH_KEY,
-				Constantes.HEADER_TOKEN_AUT , 
-				Constantes.HEADER_AUTHORIZACION_KEY,
-				Constantes.HEADER_AUTH_KEY,
-				Constantes.HEADER_STATUS)
-		.exposedHeaders(Constantes.HEADER_TOKEN_AUT,
-				Constantes.HEADER_STATUS)
-		.allowCredentials(false).maxAge(3600);
+		registry.addMapping("/**") //
+				.allowedOrigins("http://localhost:4200", "*") //
+				.allowedMethods("*") //
+				.allowedHeaders( //
+						Constantes.HEADER_CONTET, //
+						Constantes.HEADER_RESQUESTWITH_KEY, //
+						Constantes.HEADER_TOKEN_AUT, //
+						Constantes.HEADER_AUTHORIZACION_KEY, //
+						Constantes.HEADER_AUTH_KEY, //
+						Constantes.HEADER_STATUS //
+				) //
+				.exposedHeaders( //
+						Constantes.HEADER_TOKEN_AUT, //
+						Constantes.HEADER_STATUS //
+				) //
+				.allowCredentials(false).maxAge(3600); //
 	}
 }
