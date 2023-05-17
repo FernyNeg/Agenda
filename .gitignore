@@ -1,2 +1,9 @@
-#AgendaFront/.vscode/
-#AgendaFront/node_modules/
+Agenda/Agenda/.vscode/
+Agenda/Agenda/node_modules/
+Agenda/AgendaPersist/.classpath/
+Agenda/AgendaCore/.classpath/
+Agenda/AgendaRest/.classpath/
+Agenda/AgendaPersist/.settings/
+Agenda/AgendaCore/.settings/
+Agenda/AgendaRest/.settings/
+*/.settings/

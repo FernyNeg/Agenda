@@ -3,7 +3,7 @@ package itsh.isic.models;
 import java.io.Serializable;
 import java.util.List;
 
-public class ConsultaList<T> implements Serializable {
+public class ConsultaList<T> extends BaseModel implements Serializable {
 
 	private static final long serialVersionUID = 7770289893916207614L;
 

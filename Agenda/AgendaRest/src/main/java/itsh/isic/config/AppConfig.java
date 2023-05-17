@@ -1,6 +1,6 @@
 package itsh.isic.config;
 
-import javax.sql.DataSource;
+//import javax.sql.DataSource;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,8 +11,8 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.PlatformTransactionManager;
+//import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+//import org.springframework.transaction.PlatformTransactionManager;
 
 @SpringBootApplication
 @ComponentScan({ "itsh.isic.*" })
@@ -35,9 +35,9 @@ public class AppConfig extends SpringBootServletInitializer {
 		}
 	}
 
-	@Bean
-	public PlatformTransactionManager transactionManager(DataSource dataSource) {
-		return new DataSourceTransactionManager(dataSource);
-	}
+//	@Bean
+//	public PlatformTransactionManager transactionManager(DataSource dataSource) {
+//		return new DataSourceTransactionManager(dataSource);
+//	}
 
 }
