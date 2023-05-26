@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from "@angular/material/dialog";
 import { CommonModule } from '@angular/common';
+import { DirectivasModule } from '../shared/directives/diractivas.module';
 /* import { HTTP_INTERCEPTORS } from '@angular/common/http'; */
 /* import { JwtInterceptor } from '../../security/helper/jwt.interceptor'; */
 /* import { GlobalHttpInterceptorService } from '../../security/helper/globalhttp.interceptor'; */
@@ -11,14 +12,15 @@ import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
-    ContactoModalComponent
+    ContactoModalComponent,
   ],
   imports: [
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
     CommonModule,
-    MatDialogModule
+    MatDialogModule,
+    DirectivasModule
   ],
   exports: [
     ContactoModalComponent

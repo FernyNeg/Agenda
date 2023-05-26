@@ -36,7 +36,7 @@ public class LoginController {
 
 //		this.binnacleBusiness.save(LoggingUtils.createBinnacleForLogging(
 //				"Intento de Logueo del Usuario: " + user.getUsername(), this.session, LogCategoryEnum.TRY));
-		try {
+		try {	
 			user = this.login.validateUserCredentials(user.getApodo(), user.getContrasenia());
 			this.setUserProfileAndSession(user);
 //			this.binnacleBusiness

@@ -21,7 +21,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<spring.boot.version>3.0.6</spring.boot.version>
+		<spring.boot.version>3.0.7</spring.boot.version>
 		<java.version>17</java.version>
 		<start-class>itsh.isic.config.AppConfig</start-class>
 	</properties>
@@ -60,6 +60,7 @@
 		</dependency>
 		
 		
+		<!-- 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -72,6 +73,7 @@
 			<groupId>org.springframework.session</groupId>
 			<artifactId>spring-session-jdbc</artifactId>
 		</dependency>
+		-->
 		
 		<!-- dependencia que agrega funciones y propiedades para la gestion de sesiones 
 		<dependency>

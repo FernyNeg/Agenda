@@ -1,6 +1,6 @@
 package itsh.isic.config;
 
-import javax.sql.DataSource;
+//import javax.sql.DataSource;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,9 +10,13 @@ import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerF
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.http.HttpStatus;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.PlatformTransactionManager;
+//import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+//import org.springframework.transaction.PlatformTransactionManager;
+
+import itsh.isic.models.security.UsuarioSesion;
 
 @SpringBootApplication
 @ComponentScan({ "itsh.isic.*" })
@@ -20,6 +24,12 @@ public class AppConfig extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AppConfig.class, args);
+	}
+
+	@Bean
+	@Scope(value = "sesion", proxyMode = ScopedProxyMode.TARGET_CLASS)
+	public UsuarioSesion userSession() {
+		return new UsuarioSesion();
 	}
 
 	@Bean
@@ -35,9 +45,9 @@ public class AppConfig extends SpringBootServletInitializer {
 		}
 	}
 
-	@Bean
-	public PlatformTransactionManager transactionManager(DataSource dataSource) {
-		return new DataSourceTransactionManager(dataSource);
-	}
+//	@Bean
+//	public PlatformTransactionManager transactionManager(DataSource dataSource) {
+//		return new DataSourceTransactionManager(dataSource);
+//	}
 
 }
