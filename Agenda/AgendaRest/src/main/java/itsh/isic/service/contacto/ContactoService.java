@@ -34,7 +34,7 @@ public class ContactoService {
 		try {
 			res.setList(contacto.getContactosList(reqNombre));
 		} catch (Exception e) {
-			log.error("ContactoBuss: Error al consultar contactos: " + reqNombre + e);
+			log.error("ContactoBuss: Error al consultar contactos: " + reqNombre + " - " + e.getMessage());
 			res = null;
 		}
 		return res;

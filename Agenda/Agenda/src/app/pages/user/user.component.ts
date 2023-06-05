@@ -32,18 +32,19 @@ export class UserComponent implements OnInit {
 
   //#region Eventos
   getContactoEvent(contacto: Contacto) {
-    this.getContactoPorIdService(contacto);
+    // this.getContactoPorIdService(contacto);
+    this.abreContactoModal(null);
   }
   //#endregion
 
   //#region Metodos
   abreContactoModal(contacto: Contacto) {
     let modal = this.dialog.open(ContactoModalComponent, {
-      backdropClass: '',
-      panelClass: 'custom-modalbox',
-      disableClose: true,
+      // backdropClass: '',
+      // panelClass: 'custom-modalbox',
+      // disableClose: true,
       maxHeight: '900px',
-      maxWidth: '800px',
+      maxWidth: '500px',
       data: { edit: true, info: contacto }
     });
     modal.afterClosed().subscribe(res => {
@@ -59,6 +60,7 @@ export class UserComponent implements OnInit {
   getContactosService() {
     this.service.getContactos(this.busqueda).subscribe(res => {
       this.busqueda.list = res.list;
+      console.log(res);
     });
   }
 
